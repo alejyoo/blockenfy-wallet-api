@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  displayName String?
+  customId    String?  @unique
+  balance     Decimal  @default(0) @db.Decimal(10, 2)
+  currency    String   @default("USD")
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+
+  recharged            Recharge[]
+  sentTransactions     Transaction[] @relation("SentTransactions")
+  receivedTransactions Transaction[] @relation("ReceivedTransactions")
+
+  @@map("users")
+}
+
+model Recharge {
+  id        String   @id @default(cuid())
+  amount    Decimal  @db.Decimal(10, 2)
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("recharges")
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  amount     Decimal  @db.Decimal(10, 2)
+  fromUserId String
+  toUserId   String
+  createdAt  DateTime @default(now())
+
+  fromUser User @relation("SentTransactions", fields: [fromUserId], references: [id])
+  toUser   User @relation("ReceivedTransactions", fields: [toUserId], references: [id])
+
+  @@map("transactions")
+}

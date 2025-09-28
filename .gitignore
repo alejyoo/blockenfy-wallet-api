@@ -3,4 +3,4 @@ pnpm-lock.yaml
 .env
 
 /src/generated/prisma
-/prisma/migrations
+/logs/
