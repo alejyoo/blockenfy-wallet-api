@@ -20,4 +20,5 @@ const startServer = async () => {
     process.exit()
   }
 }
+
 startServer()

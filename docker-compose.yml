@@ -24,7 +24,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "pnpm run db:migrate && pnpm run start"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "pnpm run db:migrate && pnpm run dev"
 
 volumes:
   pgdata:

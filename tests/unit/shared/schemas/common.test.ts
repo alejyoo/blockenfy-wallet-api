@@ -4,7 +4,7 @@ import {
   customIdSchemas,
   displayNameSchemas,
   userIdSchemas
-} from '@/shared/schemas/commonSchemas'
+} from '../../../../src/shared/schemas'
 
 describe('Zod Schemas', () => {
   describe('userIdSchemas', () => {

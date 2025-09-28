@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["*"],
       "@/database/*": ["./generated/*"]
     },
     "target": "es2024",
@@ -16,6 +17,6 @@
     "sourceMap": true,
     "incremental": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

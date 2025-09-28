@@ -1,6 +1,8 @@
-export default {
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  dbName: process.env.POSTGRES_DB,
-  url: process.env.DATABASE_URL
+import { env } from './validation'
+
+export const databaseConfig = {
+  user: env.POSTGRES_USER,
+  password: env.POSTGRES_PASSWORD,
+  dbName: env.POSTGRES_DB,
+  url: env.DATABASE_URL
 }

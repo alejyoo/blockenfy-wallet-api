@@ -1,6 +1,7 @@
 export default {
   INTERNAL_ERROR: 'An internal error occurred.',
   USER: {
+    EXIST: 'User does not exist',
     REQUIRED: 'User ID is required.',
     TOO_SHORT: 'User ID must have at least 3 characters.',
     TOO_LONG: 'User ID must not exceed 30 characters.',

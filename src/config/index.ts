@@ -1,6 +1,4 @@
-import 'dotenv/config'
-
-import databaseConfig from '@/config/database'
-import serverConfig from '@/config/server'
+import { serverConfig } from './server'
+import { databaseConfig } from './database'
 
 export { serverConfig, databaseConfig }

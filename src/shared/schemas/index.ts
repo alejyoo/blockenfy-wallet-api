@@ -4,13 +4,13 @@ import {
   displayNameSchemas,
   userIdSchemas
 } from './commonSchemas'
-
-import { createUserSchema } from './userSchemas'
+import { createUserSchema, getUserSchema } from './userSchemas'
 
 export {
   amountSchemas,
   customIdSchemas,
   displayNameSchemas,
   userIdSchemas,
-  createUserSchema
+  createUserSchema,
+  getUserSchema
 }
