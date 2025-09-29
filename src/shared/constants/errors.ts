@@ -5,7 +5,8 @@ export default {
     REQUIRED: 'User ID is required.',
     TOO_SHORT: 'User ID must have at least 3 characters.',
     TOO_LONG: 'User ID must not exceed 30 characters.',
-    INVALID: 'User ID must contain only letters, numbers, _ or -.'
+    INVALID: 'User ID must contain only letters, numbers, _ or -.',
+    NO_CHANGES: 'No changed detected'
   },
   AMOUNT: {
     POSITIVE: 'Amount must be positive.',

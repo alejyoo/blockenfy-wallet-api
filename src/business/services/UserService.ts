@@ -1,11 +1,12 @@
 import { UserRepository } from '@/infrastructure/database/repositories/UserRepository'
 import { ERRORS } from '@/shared/constants'
 import { HttpError } from '@/shared/exceptions'
+import { findUserOrThrow } from '@/business/helpers'
 
 export const UserService = {
   async createUser(data: { displayName: string; customId?: string }) {
     if (data.customId) {
-      const existingUser = await UserRepository.findByCustomId(data.customId)
+      const existingUser = await findUserOrThrow(data.customId)
 
       if (existingUser) throw new HttpError(ERRORS.CUSTOM_ID.IS_EXIST, 409)
     }
@@ -17,14 +18,35 @@ export const UserService = {
     return await UserRepository.listUsers()
   },
 
-  async getUserByIdOrCustomId(idOrCustomId: string) {
-    let userById = await UserRepository.getUserById(idOrCustomId)
-    if (!userById) {
-      userById = await UserRepository.findByCustomId(idOrCustomId)
+  async getUser(identifier: string) {
+    return await findUserOrThrow(identifier)
+  },
+
+  async deleteUser(identifier: string) {
+    const user = await findUserOrThrow(identifier)
+    if (!user) throw new HttpError(ERRORS.USER.EXIST, 404)
+
+    return await UserRepository.deleteUser(user.id)
+  },
+
+  async updateUser(
+    identifier: string,
+    data: { displayName?: string; customId?: string }
+  ) {
+    const user = await findUserOrThrow(identifier)
+
+    if (
+      (!data.displayName || data.displayName === user.displayName) &&
+      (!data.customId || data.customId === user.customId)
+    ) {
+      throw new HttpError(ERRORS.USER.NO_CHANGES, 400)
     }
 
-    if (!userById) throw new HttpError(ERRORS.USER.EXIST, 404)
+    if (data.customId && data.customId !== user.customId) {
+      const existing = await UserRepository.getUserdByCustomId(data.customId)
+      if (existing) throw new HttpError(ERRORS.CUSTOM_ID.IS_EXIST, 409)
+    }
 
-    return userById
+    return await UserRepository.updateUser(user.id, data)
   }
 }

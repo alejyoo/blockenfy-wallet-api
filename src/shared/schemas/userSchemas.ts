@@ -13,3 +13,8 @@ export const createUserSchema = z.object({
 export const getUserSchema = z.object({
   id: userIdSchemas
 })
+
+export const updateUserSchema = z.object({
+  displayName: displayNameSchemas.optional(),
+  customId: customIdSchemas.optional()
+})

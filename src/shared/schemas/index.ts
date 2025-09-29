@@ -4,7 +4,12 @@ import {
   displayNameSchemas,
   userIdSchemas
 } from './commonSchemas'
-import { createUserSchema, getUserSchema } from './userSchemas'
+import {
+  createUserSchema,
+  getUserSchema,
+  updateUserSchema
+} from './userSchemas'
+import { rechargeSchema, transactionSchema } from './transactionSchemas'
 
 export {
   amountSchemas,
@@ -12,5 +17,8 @@ export {
   displayNameSchemas,
   userIdSchemas,
   createUserSchema,
-  getUserSchema
+  getUserSchema,
+  updateUserSchema,
+  rechargeSchema,
+  transactionSchema
 }

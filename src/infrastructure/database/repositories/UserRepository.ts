@@ -6,8 +6,15 @@ export const UserRepository = {
 
   getUserById: (id: string) => prisma.user.findUnique({ where: { id } }),
 
-  findByCustomId: (customId: string) =>
+  getUserdByCustomId: (customId: string) =>
     prisma.user.findUnique({ where: { customId } }),
 
-  listUsers: () => prisma.user.findMany()
+  listUsers: () => prisma.user.findMany(),
+
+  deleteUser: (id: string) => prisma.user.delete({ where: { id } }),
+
+  updateUser: (
+    id: string,
+    data: { displayName?: string; customId?: string; balance?: number }
+  ) => prisma.user.update({ where: { id }, data })
 }
