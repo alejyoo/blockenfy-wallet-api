@@ -17,7 +17,7 @@ export const envSchema = z.object({
   POSTGRES_USER: z.string().min(1),
   POSTGRES_PASSWORD: z.string().min(1),
   POSTGRES_DB: z.string().min(1),
-  DATABASE_URL: z.string().url()
+  DATABASE_URL: z.url()
 })
 
 export type EnvType = z.infer<typeof envSchema>
