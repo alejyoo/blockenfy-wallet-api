@@ -1,8 +1,8 @@
 import express from 'express'
 import { errorHandler, securityMiddleware } from '@/presentation/middleware'
+import transactionRoutes from '@/presentation/routes/transactionRoutes'
 import userRoutes from '@/presentation/routes/userRoutes'
 import { serverConfig as config } from './config'
-import transactionRoutes from '@/presentation/routes/transactionRoutes'
 
 const app = express()
 

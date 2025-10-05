@@ -1,7 +1,7 @@
+import { findUserOrThrow } from '@/business/helpers'
 import { UserRepository } from '@/infrastructure/database/repositories/UserRepository'
 import { ERRORS } from '@/shared/constants'
 import { HttpError } from '@/shared/exceptions'
-import { findUserOrThrow } from '@/business/helpers'
 
 export const UserService = {
   async createUser(data: { displayName: string; customId?: string }) {

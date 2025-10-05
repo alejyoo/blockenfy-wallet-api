@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import {
   createUser,
-  listUsers,
-  getUser,
   deleteUser,
+  getUser,
+  listUsers,
   updateUser
 } from '@/presentation/controllers/UserController'
 import { validate } from '@/presentation/middleware'

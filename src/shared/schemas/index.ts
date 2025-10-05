@@ -4,12 +4,12 @@ import {
   displayNameSchemas,
   userIdSchemas
 } from './commonSchemas'
+import { rechargeSchema, transactionSchema } from './transactionSchemas'
 import {
   createUserSchema,
   getUserSchema,
   updateUserSchema
 } from './userSchemas'
-import { rechargeSchema, transactionSchema } from './transactionSchemas'
 
 export {
   amountSchemas,

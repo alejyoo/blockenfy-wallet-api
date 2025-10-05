@@ -1,5 +1,5 @@
+import type { NextFunction, Request, Response } from 'express'
 import { TransactionService } from '@/business/services'
-import { Request, Response, NextFunction } from 'express'
 
 export const recharge = async (
   req: Request,

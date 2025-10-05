@@ -1,7 +1,7 @@
 import { Router } from 'express'
+import { recharge, sendTransaction } from '@/presentation/controllers'
 import { validate } from '@/presentation/middleware'
 import { rechargeSchema, transactionSchema } from '@/shared/schemas'
-import { recharge, sendTransaction } from '@/presentation/controllers'
 
 const router = Router()
 

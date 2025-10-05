@@ -1,5 +1,5 @@
-import { UserRepository } from '@/infrastructure/database/repositories'
 import { findUserOrThrow } from '@/business/helpers'
+import { UserRepository } from '@/infrastructure/database/repositories'
 
 export const TransactionService = {
   async recharge(identifier: string, amount: number) {
