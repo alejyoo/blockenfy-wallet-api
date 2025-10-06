@@ -17,7 +17,12 @@ export const envSchema = z.object({
   POSTGRES_USER: z.string().min(1),
   POSTGRES_PASSWORD: z.string().min(1),
   POSTGRES_DB: z.string().min(1),
-  DATABASE_URL: z.url()
+  DATABASE_URL: z.url(),
+  JWT_SECRET: z.string().min(32),
+  JWT_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+  BCRYPT_ROUNDS: z.string()
 })
 
 export type EnvType = z.infer<typeof envSchema>

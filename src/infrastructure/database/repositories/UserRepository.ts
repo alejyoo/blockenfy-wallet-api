@@ -1,20 +1,44 @@
 import { prisma } from '../connection'
 
 export const UserRepository = {
-  createUser: (data: { displayName: string; customId?: string }) =>
-    prisma.user.create({ data }),
+  create: (data: {
+    displayName?: string
+    customId?: string
+    password: string
+    email: string
+  }) => {
+    return prisma.user.create({ data })
+  },
 
-  getUserById: (id: string) => prisma.user.findUnique({ where: { id } }),
+  findById: (id: string) => {
+    return prisma.user.findUnique({ where: { id } })
+  },
 
-  getUserdByCustomId: (customId: string) =>
-    prisma.user.findUnique({ where: { customId } }),
+  findByEmail: (email: string) => {
+    return prisma.user.findUnique({ where: { email } })
+  },
 
-  listUsers: () => prisma.user.findMany(),
+  findByCustomId: (customId: string) => {
+    return prisma.user.findUnique({ where: { customId } })
+  },
 
-  deleteUser: (id: string) => prisma.user.delete({ where: { id } }),
+  list: () => {
+    return prisma.user.findMany()
+  },
 
-  updateUser: (
+  update: (
     id: string,
-    data: { displayName?: string; customId?: string; balance?: number }
-  ) => prisma.user.update({ where: { id }, data })
+    data: {
+      displayName?: string
+      customId?: string
+      balance?: number
+      currency?: string
+    }
+  ) => {
+    return prisma.user.update({ where: { id }, data })
+  },
+
+  delete: (id: string) => {
+    return prisma.user.delete({ where: { id } })
+  }
 }

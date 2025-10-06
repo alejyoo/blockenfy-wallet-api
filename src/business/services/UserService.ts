@@ -2,37 +2,33 @@ import { findUserOrThrow } from '@/business/helpers'
 import { UserRepository } from '@/infrastructure/database/repositories/UserRepository'
 import { ERRORS } from '@/shared/constants'
 import { HttpError } from '@/shared/exceptions'
+import type { CreateUserDTO, SafeUser, UpdateUserDTO } from '@/shared/types'
+import { findUserByIdentifier } from '../helpers/findUserByIdentifier'
 
 export const UserService = {
-  async createUser(data: { displayName: string; customId?: string }) {
+  async createUser(data: CreateUserDTO): Promise<SafeUser> {
     if (data.customId) {
-      const existingUser = await findUserOrThrow(data.customId)
-
-      if (existingUser) throw new HttpError(ERRORS.CUSTOM_ID.IS_EXIST, 409)
+      const existing = await findUserByIdentifier(data.customId)
+      if (existing) throw new HttpError(ERRORS.CUSTOM_ID.ALREADY_EXISTS, 409)
     }
 
-    return await UserRepository.createUser(data)
+    return await UserRepository.create(data)
   },
 
-  async listUsers() {
-    return await UserRepository.listUsers()
+  async listUsers(): Promise<SafeUser[]> {
+    return await UserRepository.list()
   },
 
-  async getUser(identifier: string) {
+  async getUser(identifier: string): Promise<SafeUser> {
     return await findUserOrThrow(identifier)
   },
 
-  async deleteUser(identifier: string) {
+  async deleteUser(identifier: string): Promise<void> {
     const user = await findUserOrThrow(identifier)
-    if (!user) throw new HttpError(ERRORS.USER.EXIST, 404)
-
-    return await UserRepository.deleteUser(user.id)
+    await UserRepository.delete(user.id)
   },
 
-  async updateUser(
-    identifier: string,
-    data: { displayName?: string; customId?: string }
-  ) {
+  async updateUser(identifier: string, data: UpdateUserDTO): Promise<SafeUser> {
     const user = await findUserOrThrow(identifier)
 
     if (
@@ -43,10 +39,10 @@ export const UserService = {
     }
 
     if (data.customId && data.customId !== user.customId) {
-      const existing = await UserRepository.getUserdByCustomId(data.customId)
-      if (existing) throw new HttpError(ERRORS.CUSTOM_ID.IS_EXIST, 409)
+      const existing = await UserRepository.findByCustomId(data.customId)
+      if (existing) throw new HttpError(ERRORS.CUSTOM_ID.ALREADY_EXISTS, 409)
     }
 
-    return await UserRepository.updateUser(user.id, data)
+    return await UserRepository.update(user.id, data)
   }
 }

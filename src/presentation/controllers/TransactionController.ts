@@ -1,32 +1,27 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { TransactionService } from '@/business/services'
+import { asyncHandler } from '@/presentation/middleware'
+import { SUCCESS } from '@/shared/constants'
+import { sendResponse } from '@/shared/utils'
 
-export const recharge = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { identifier, amount } = req.body
+export const recharge = asyncHandler(async (req: Request, res: Response) => {
+  const { identifier, amount } = req.body
+  const updatedUser = await TransactionService.recharge(identifier, amount)
+  return sendResponse({
+    res,
+    message: SUCCESS.TRANSACTION.RECHARGE,
+    data: updatedUser
+  })
+})
 
-    const updatedUser = await TransactionService.recharge(identifier, amount)
-
-    res.status(200).json({ success: true, data: updatedUser })
-  } catch (err) {
-    next(err)
-  }
-}
-
-export const sendTransaction = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const sendTransaction = asyncHandler(
+  async (req: Request, res: Response) => {
     const { sender, receiver, amount } = req.body
     const tx = await TransactionService.send(sender, receiver, amount)
-    res.status(200).json({ success: true, data: tx })
-  } catch (err) {
-    next(err)
+    return sendResponse({
+      res,
+      message: SUCCESS.TRANSACTION.SEND,
+      data: tx
+    })
   }
-}
+)

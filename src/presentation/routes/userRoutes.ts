@@ -6,20 +6,41 @@ import {
   listUsers,
   updateUser
 } from '@/presentation/controllers/UserController'
-import { validate } from '@/presentation/middleware'
+import { authorize, authorizeOwner, validate } from '@/presentation/middleware'
 import {
   createUserSchema,
   getUserSchema,
   updateUserSchema
 } from '@/shared/schemas'
+import { authenticate } from '../middleware/authenticate'
 
 const router = Router()
 
-router.get('/', listUsers)
-router.post('/', validate(createUserSchema, 'body'), createUser)
+router.use(authenticate)
 
-router.get('/:id', validate(getUserSchema, 'params'), getUser)
-router.delete('/:id', deleteUser)
-router.put('/:id', validate(updateUserSchema, 'body'), updateUser)
+router.get('/', authorize('ADMIN'), listUsers)
+
+router.post(
+  '/',
+  authorize('ADMIN'),
+  validate(createUserSchema, 'body'),
+  createUser
+)
+
+router.get(
+  '/:id',
+  validate(getUserSchema, 'params'),
+  authorizeOwner('id'),
+  getUser
+)
+
+router.put(
+  '/:id',
+  validate(updateUserSchema, 'body'),
+  authorizeOwner('id'),
+  updateUser
+)
+
+router.delete('/:id', authorizeOwner('id'), deleteUser)
 
 export default router

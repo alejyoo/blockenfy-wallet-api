@@ -12,10 +12,13 @@ model User {
   id          String   @id @default(cuid())
   displayName String?
   customId    String?  @unique
+  email       String   @unique
+  password    String
   balance     Decimal  @default(0) @db.Decimal(10, 2)
   currency    String   @default("USD")
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
+  role        Role     @default(USER)
 
   recharged            Recharge[]
   sentTransactions     Transaction[] @relation("SentTransactions")
@@ -46,4 +49,9 @@ model Transaction {
   toUser   User @relation("ReceivedTransactions", fields: [toUserId], references: [id])
 
   @@map("transactions")
+}
+
+enum Role {
+  USER
+  ADMIN
 }

@@ -1,3 +1,4 @@
+import { loginSchema, registerSchema } from './authSchemas'
 import {
   amountSchemas,
   customIdSchemas,
@@ -20,5 +21,7 @@ export {
   getUserSchema,
   updateUserSchema,
   rechargeSchema,
-  transactionSchema
+  transactionSchema,
+  loginSchema,
+  registerSchema
 }
